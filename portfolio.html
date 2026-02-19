@@ -1,0 +1,1140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Muthu Sivakami – PHP Developer</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Clash+Display:wght@500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --bg2: #111118;
+    --card: #16161f;
+    --border: #2a2a3a;
+    --accent: #00e5ff;
+    --accent2: #ff6b35;
+    --accent3: #a855f7;
+    --text: #e8e8f0;
+    --muted: #8888a0;
+    --glow: rgba(0,229,255,0.15);
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+     font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  letter-spacing: -0.1px;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* Custom Cursor */
+  .cursor {
+    width: 12px; height: 12px;
+    background: var(--accent);
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
+    transition: transform 0.1s;
+    mix-blend-mode: screen;
+  }
+  .cursor-ring {
+    width: 36px; height: 36px;
+    border: 1.5px solid var(--accent);
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    z-index: 9998;
+    transition: all 0.18s ease;
+    opacity: 0.5;
+  }
+
+  /* Noise overlay */
+  body::before {
+    content:'';
+    position:fixed;
+    inset:0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events:none;
+    z-index:1000;
+    opacity:0.4;
+  }
+
+  /* ── NAVBAR ── */
+  .navbar-custom {
+    position: fixed; top:0; left:0; right:0;
+    z-index: 500;
+    padding: 18px 0;
+    transition: all 0.4s;
+  }
+  .navbar-custom.scrolled {
+    background: rgba(10,10,15,0.92);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    padding: 12px 0;
+  }
+  .nav-brand {
+    font-family: 'Space Mono', monospace;
+    font-size: 1.1rem;
+    color: var(--accent) !important;
+    text-decoration: none;
+    letter-spacing: -1px;
+  }
+  .nav-brand span { color: var(--accent2); }
+  .nav-link-custom {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--muted) !important;
+    text-decoration: none;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: color 0.3s;
+    padding: 6px 14px !important;
+  }
+  .nav-link-custom:hover { color: var(--accent) !important; }
+
+  /* ── HERO ── */
+  #hero {
+    min-height: 100vh;
+    display: flex; align-items: center;
+    position: relative;
+    overflow: hidden;
+    padding: 100px 0 60px;
+  }
+
+  .hero-grid {
+    position:absolute; inset:0;
+    background-image:
+      linear-gradient(rgba(0,229,255,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,229,255,0.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+    animation: gridMove 20s linear infinite;
+  }
+  @keyframes gridMove {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(60px); }
+  }
+
+  .hero-orb {
+    position:absolute;
+    border-radius:50%;
+    filter: blur(80px);
+    pointer-events:none;
+  }
+  .orb1 { width:500px; height:500px; background: rgba(0,229,255,0.08); top:-100px; right:-100px; }
+  .orb2 { width:400px; height:400px; background: rgba(168,85,247,0.07); bottom:-100px; left:-50px; }
+  .orb3 { width:300px; height:300px; background: rgba(255,107,53,0.06); top:50%; left:50%; transform:translate(-50%,-50%); }
+
+  .hero-tag {
+    display: inline-block;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    padding: 5px 14px;
+    border-radius: 2px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+    animation: fadeInUp 0.8s ease forwards;
+    opacity:0;
+  }
+
+  .hero-name {
+   font-family: 'Clash Display', sans-serif;
+  letter-spacing: -1.5px;
+    font-size: clamp(3rem, 8vw, 7rem);
+    font-weight: 800;
+    line-height: 0.95;
+    letter-spacing: -3px;
+    animation: fadeInUp 0.8s 0.15s ease forwards;
+    opacity:0;
+  }
+  .hero-name .line1 { display:block; color: var(--text); font-size: 70px;}
+  .hero-name .line2 { display:block; color: var(--accent); font-size: 70px; }
+
+  .hero-role {
+    font-family: 'Space Mono', monospace;
+    font-size: 1rem;
+    color: var(--muted);
+    margin: 24px 0;
+    animation: fadeInUp 0.8s 0.3s ease forwards;
+    opacity:0;
+  }
+  .hero-role .highlight { color: var(--accent2); }
+
+  .hero-desc {
+    font-size: 1.05rem;
+    color: var(--muted);
+    max-width: 480px;
+    line-height: 1.7;
+    animation: fadeInUp 0.8s 0.45s ease forwards;
+    opacity:0;
+  }
+
+  .hero-ctas {
+    display: flex; gap:16px; flex-wrap:wrap;
+    margin-top: 36px;
+    animation: fadeInUp 0.8s 0.6s ease forwards;
+    opacity:0;
+  }
+
+  .btn-primary-custom {
+    background: var(--accent);
+    color: var(--bg);
+    font-family: 'Space Mono', monospace;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 14px 32px;
+    border: none; border-radius: 2px;
+    text-decoration: none;
+    transition: all 0.3s;
+    display: inline-block;
+  }
+  .btn-primary-custom:hover {
+    background: var(--bg);
+    color: var(--accent);
+    box-shadow: 0 0 0 2px var(--accent), 0 0 30px var(--glow);
+  }
+
+  .btn-outline-custom {
+    background: transparent;
+    color: var(--text);
+    font-family: 'Space Mono', monospace;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 13px 32px;
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    text-decoration: none;
+    transition: all 0.3s;
+    display: inline-block;
+  }
+  .btn-outline-custom:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    box-shadow: 0 0 20px var(--glow);
+  }
+
+  .hero-stats {
+    display: flex; gap: 40px; flex-wrap:wrap;
+    margin-top: 60px;
+    padding-top: 40px;
+    border-top: 1px solid var(--border);
+    animation: fadeInUp 0.8s 0.75s ease forwards;
+    opacity:0;
+  }
+  .stat-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--accent);
+    display: block;
+    line-height: 1;
+  }
+  .stat-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--muted);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-top: 4px;
+    display:block;
+  }
+
+  /* Hero right - code window */
+  .code-window {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    animation: fadeInRight 1s 0.4s ease forwards;
+    opacity:0;
+    box-shadow: 0 40px 80px rgba(0,0,0,0.5), 0 0 60px var(--glow);
+  }
+  .code-titlebar {
+    background: #1e1e2e;
+    padding: 12px 16px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .dot { width:12px; height:12px; border-radius:50%; }
+  .dot.red { background: #ff5f57; }
+  .dot.yellow { background: #ffbd2e; }
+  .dot.green { background: #28c840; }
+  .code-filename {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--muted);
+    margin-left: 8px;
+  }
+  .code-body {
+    padding: 24px;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.8rem;
+    line-height: 2;
+  }
+  .c-comment { color: #6272a4; }
+  .c-keyword { color: #ff79c6; }
+  .c-class { color: #8be9fd; }
+  .c-string { color: #f1fa8c; }
+  .c-var { color: #50fa7b; }
+  .c-num { color: var(--accent2); }
+  .c-fn { color: #bd93f9; }
+  .c-indent { display:block; padding-left: 20px; }
+  .c-indent2 { display:block; padding-left: 40px; }
+
+  .typing-cursor {
+    display:inline-block;
+    width:2px; height:1em;
+    background: var(--accent);
+    vertical-align: middle;
+    animation: blink 1s step-end infinite;
+  }
+  @keyframes blink { 50% { opacity:0; } }
+
+  /* ── SECTIONS ── */
+  section { padding: 100px 0; }
+  .section-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--accent);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .section-label::after {
+    content:'';
+    flex:1; max-width:60px;
+    height:1px;
+    background: var(--accent);
+    opacity:0.4;
+  }
+  .section-title {
+    font-family: 'Clash Display', sans-serif;
+  letter-spacing: -1.5px;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 800;
+    letter-spacing: -2px;
+    line-height: 1;
+    margin-bottom: 20px;
+  }
+
+  /* ── ABOUT ── */
+  #about { background: var(--bg2); }
+  .about-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 40px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  .about-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 60px rgba(0,229,255,0.08);
+  }
+  .about-card::before {
+    content:'';
+    position:absolute; top:0; left:0; right:0;
+    height:2px;
+    background: linear-gradient(90deg, var(--accent), var(--accent3));
+  }
+  .about-text { color: var(--muted); line-height: 1.8; font-size: 1.02rem; }
+  .info-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:24px; }
+  .info-item { display:flex; flex-direction:column; gap:4px; }
+  .info-key {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--muted);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  .info-val { font-size: 0.95rem; color: var(--text); }
+  .info-val a { color: var(--accent); text-decoration: none; }
+  .info-val a:hover { text-decoration: underline; }
+
+  /* ── SKILLS ── */
+  .skills-grid { display:grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap:20px; }
+  .skill-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 28px;
+    transition: all 0.3s;
+    position: relative; overflow: hidden;
+  }
+  .skill-card:hover {
+    border-color: var(--accent);
+    transform: translateY(-4px);
+    box-shadow: 0 20px 50px rgba(0,229,255,0.1);
+  }
+  .skill-card:hover .skill-icon { transform: scale(1.1) rotate(-5deg); }
+  .skill-icon {
+    font-size: 2rem;
+    margin-bottom: 16px;
+    display:block;
+    transition: transform 0.3s;
+  }
+  .skill-name {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    margin-bottom: 8px;
+  }
+  .skill-tags { display:flex; flex-wrap:wrap; gap:6px; margin-top:12px; }
+  .stag {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--accent);
+    background: rgba(0,229,255,0.07);
+    border: 1px solid rgba(0,229,255,0.2);
+    padding: 3px 8px;
+    border-radius: 2px;
+    letter-spacing: 0.5px;
+  }
+
+  /* ── EXPERIENCE ── */
+  #experience { background: var(--bg2); }
+  .timeline { position:relative; padding-left: 40px; }
+  .timeline::before {
+    content:''; position:absolute; left:8px; top:0; bottom:0;
+    width:1px; background: var(--border);
+  }
+  .tl-item { position:relative; margin-bottom: 50px; }
+  .tl-dot {
+    position:absolute; left:-37px; top:6px;
+    width:16px; height:16px;
+    border-radius:50%;
+    border: 2px solid var(--accent);
+    background: var(--bg);
+    box-shadow: 0 0 12px var(--accent);
+  }
+  .tl-period {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--accent2);
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+  }
+  .tl-company {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+  .tl-role {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--accent);
+    margin-bottom: 16px;
+  }
+  .tl-desc { color: var(--muted); line-height: 1.8; }
+  .tl-desc li { margin-bottom: 6px; list-style:none; padding-left:20px; position:relative; }
+  .tl-desc li::before { content:'→'; position:absolute; left:0; color: var(--accent); font-size:0.8rem; }
+
+  /* ── PROJECTS ── */
+  .projects-grid { display:grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap:24px; }
+  .project-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 32px;
+    transition: all 0.3s;
+    position: relative; overflow: hidden;
+    cursor: default;
+  }
+  .project-card::after {
+    content:'';
+    position:absolute; inset:0;
+    background: linear-gradient(135deg, var(--glow), transparent);
+    opacity:0;
+    transition: opacity 0.3s;
+  }
+  .project-card:hover { transform: translateY(-6px); box-shadow: 0 24px 60px rgba(0,0,0,0.4); }
+  .project-card:hover::after { opacity:1; }
+  .project-card:hover { border-color: rgba(0,229,255,0.4); }
+
+  .project-num {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--accent);
+    letter-spacing: 2px;
+    opacity: 0.6;
+    margin-bottom: 16px;
+  }
+  .project-title {
+    font-family: 'Clash Display', sans-serif;
+  letter-spacing: -1.5px;
+    font-size: 1.15rem;
+    font-weight: 700;
+    margin-bottom: 12px;
+    line-height: 1.3;
+  }
+  .project-desc { color: var(--muted); font-size: 0.9rem; line-height: 1.7; margin-bottom: 20px; }
+  .project-tech { display:flex; flex-wrap:wrap; gap:6px; }
+  .tech-badge {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.63rem;
+    padding: 4px 10px;
+    border-radius: 2px;
+    letter-spacing: 0.5px;
+  }
+  .tech-php { background: rgba(0,229,255,0.1); color: var(--accent); border: 1px solid rgba(0,229,255,0.2); }
+  .tech-yii { background: rgba(168,85,247,0.1); color: #c084fc; border: 1px solid rgba(168,85,247,0.2); }
+  .tech-laravel { background: rgba(255,107,53,0.1); color: var(--accent2); border: 1px solid rgba(255,107,53,0.2); }
+  .tech-mysql { background: rgba(40,200,100,0.1); color: #4ade80; border: 1px solid rgba(40,200,100,0.2); }
+  .tech-js { background: rgba(250,204,21,0.1); color: #fbbf24; border: 1px solid rgba(250,204,21,0.2); }
+  .tech-other { background: rgba(255,255,255,0.05); color: var(--muted); border: 1px solid var(--border); }
+
+  /* ── CONTACT ── */
+  #contact { background: var(--bg2); }
+  .contact-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 50px;
+    text-align: center;
+    position: relative; overflow: hidden;
+  }
+  .contact-card::before {
+    content:'';
+    position:absolute; top:0; left:0; right:0; bottom:0;
+    background: radial-gradient(ellipse at top, rgba(0,229,255,0.05), transparent 60%);
+    pointer-events:none;
+  }
+  .contact-big {
+  font-family: 'Clash Display', sans-serif;
+  letter-spacing: -1.5px;
+    font-size: clamp(1.8rem, 4vw, 3rem);
+    font-weight: 800;
+    letter-spacing: -2px;
+    margin-bottom: 16px;
+  }
+  .contact-sub { color: var(--muted); margin-bottom: 40px; font-size: 1.05rem; }
+  .contact-links { display:flex; justify-content:center; gap:24px; flex-wrap:wrap; margin-top: 40px; }
+  .contact-link {
+    display:flex; align-items:center; gap:10px;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.8rem;
+    color: var(--muted);
+    text-decoration:none;
+    padding: 14px 24px;
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    transition: all 0.3s;
+    letter-spacing: 0.5px;
+  }
+  .contact-link:hover { color: var(--accent); border-color: var(--accent); box-shadow: 0 0 20px var(--glow); }
+  .contact-link i { font-size: 1rem; }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 28px 0;
+    text-align: center;
+  }
+  .footer-text {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--muted);
+    letter-spacing: 1px;
+  }
+  .footer-text span { color: var(--accent); }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeInUp {
+    from { opacity:0; transform: translateY(30px); }
+    to { opacity:1; transform: translateY(0); }
+  }
+  @keyframes fadeInRight {
+    from { opacity:0; transform: translateX(40px); }
+    to { opacity:1; transform: translateX(0); }
+  }
+
+  .reveal {
+    opacity:0; transform: translateY(40px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible { opacity:1; transform: translateY(0); }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width:4px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--accent); border-radius:2px; }
+
+  /* Mobile */
+  @media (max-width:768px) {
+    .info-grid { grid-template-columns:1fr; }
+    .hero-stats { gap:24px; }
+    .code-window { display:none; }
+    .about-card { padding: 28px; }
+    .contact-card { padding: 32px 20px; }
+  }
+
+  /* Active nav */
+  .nav-link-custom.active { color: var(--accent) !important; }
+
+  /* Availability badge */
+  .avail-badge {
+    display:inline-flex; align-items:center; gap:8px;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem;
+    color: #4ade80;
+    background: rgba(74,222,128,0.08);
+    border: 1px solid rgba(74,222,128,0.3);
+    padding: 6px 14px;
+    border-radius: 2px;
+    margin-bottom: 20px;
+  }
+  .avail-dot {
+    width:7px; height:7px; border-radius:50%;
+    background: #4ade80;
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%,100% { box-shadow: 0 0 0 0 rgba(74,222,128,0.5); }
+    50% { box-shadow: 0 0 0 6px rgba(74,222,128,0); }
+  }
+</style>
+</head>
+<body>
+
+<!-- Cursor -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- Navbar -->
+<nav class="navbar-custom" id="navbar">
+  <div class="container d-flex justify-content-between align-items-center">
+    <a href="#hero" class="nav-brand">muthu<span>.</span>dev</a>
+    <div class="d-flex gap-1">
+      <a href="#about" class="nav-link-custom">About</a>
+      <a href="#skills" class="nav-link-custom">Skills</a>
+      <a href="#experience" class="nav-link-custom">Exp</a>
+      <a href="#projects" class="nav-link-custom">Projects</a>
+      <a href="#contact" class="nav-link-custom">Contact</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ── HERO ── -->
+<section id="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-orb orb1"></div>
+  <div class="hero-orb orb2"></div>
+  <div class="hero-orb orb3"></div>
+
+  <div class="container">
+    <div class="row align-items-center g-5">
+      <div class="col-lg-6">
+        <div class="avail-badge">
+          <span class="avail-dot"></span>
+          Available for opportunities
+        </div>
+        <div class="hero-tag">PHP Developer · Backend Developer</div>
+        <h1 class="hero-name">
+          <span class="line1">MUTHU</span>
+          <span class="line2">SIVAKAMI</span>
+        </h1>
+        <p class="hero-role">
+          <span class="highlight">&lt;</span> Building robust backends with PHP, Laravel &amp; Yii <span class="highlight">/&gt;</span>
+        </p>
+        <p class="hero-desc">
+          2+ years crafting secure, scalable web applications with clean architecture, optimized databases, and real-world ERP solutions that drive business impact.
+        </p>
+        <div class="hero-ctas">
+          <a href="#projects" class="btn-primary-custom">View Projects</a>
+          <a href="mailto:muthusivakami2001@gmail.com" class="btn-outline-custom">Hire Me</a>
+        </div>
+        <div class="hero-stats">
+          <div>
+            <span class="stat-num" data-count="2">0</span>
+            <span class="stat-label">Years Exp</span>
+          </div>
+          <div>
+            <span class="stat-num" data-count="9">0</span>
+            <span class="stat-label">Projects Built</span>
+          </div>
+          <div>
+            <span class="stat-num" data-count="96">0</span>
+            <span class="stat-label">BCA Score %</span>
+          </div>
+          <div>
+            <span class="stat-num" data-count="2">0</span>
+            <span class="stat-label">Frameworks</span>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="code-window">
+          <div class="code-titlebar">
+            <span class="dot red"></span>
+            <span class="dot yellow"></span>
+            <span class="dot green"></span>
+            <span class="code-filename">Developer.php</span>
+          </div>
+          <div class="code-body">
+            <span class="c-comment">// Meet the developer</span><br>
+            <span class="c-keyword">class</span> <span class="c-class">MuthuSivakami</span> {<br>
+            <span class="c-indent">
+              <span class="c-keyword">public string</span> <span class="c-var">$name</span> = <span class="c-string">"Muthu Sivakami S"</span>;<br>
+            </span>
+            <span class="c-indent">
+              <span class="c-keyword">public string</span> <span class="c-var">$role</span> = <span class="c-string">"PHP Backend Developer"</span>;<br>
+            </span>
+            <span class="c-indent">
+              <span class="c-keyword">public int</span> <span class="c-var">$experience</span> = <span class="c-num">2</span>;<br>
+            </span>
+            <br>
+            <span class="c-indent">
+              <span class="c-keyword">public function</span> <span class="c-fn">skills</span>(): <span class="c-class">array</span> {<br>
+            </span>
+            <span class="c-indent2">
+              <span class="c-keyword">return</span> [<span class="c-string">"Laravel"</span>, <span class="c-string">"Yii"</span>,<br>
+            </span>
+            <span class="c-indent2">
+              &nbsp;&nbsp;&nbsp;&nbsp;<span class="c-string">"MySQL"</span>, <span class="c-string">"REST API"</span>,<br>
+            </span>
+            <span class="c-indent2">
+              &nbsp;&nbsp;&nbsp;&nbsp;<span class="c-string">"MVC"</span>, <span class="c-string">"AJAX"</span>];<br>
+            </span>
+            <span class="c-indent">}</span><br>
+            <br>
+            <span class="c-indent">
+              <span class="c-keyword">public function</span> <span class="c-fn">passion</span>(): <span class="c-class">string</span> {<br>
+            </span>
+            <span class="c-indent2">
+              <span class="c-keyword">return</span> <span class="c-string">"Clean Code &amp; ERP Systems"</span>;<br>
+            </span>
+            <span class="c-indent">}</span><br>
+            }<br>
+            <br>
+            <span class="c-var">$dev</span> = <span class="c-keyword">new</span> <span class="c-class">MuthuSivakami</span>();<span class="typing-cursor"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── ABOUT ── -->
+<section id="about">
+  <div class="container">
+    <div class="row g-5">
+      <div class="col-lg-5 reveal">
+        <div class="section-label">01. About Me</div>
+        <h2 class="section-title">Who I <span style="color:var(--accent)">Am</span></h2>
+        <p style="color:var(--muted); line-height:1.8; font-size:1.02rem;">
+          I'm a passionate backend developer from Nagercoil, Tamil Nadu, focused on building robust, scalable web systems. With 2+ years of industry experience, I specialize in transforming complex business requirements into clean, maintainable PHP applications.
+        </p>
+        <p style="color:var(--muted); line-height:1.8; font-size:1.02rem; margin-top:16px;">
+          My work spans across ERP systems, billing software, sports management platforms, and donation tracking systems — each project strengthening my expertise in database optimization, MVC architecture, and real-world problem solving.
+        </p>
+      </div>
+      <div class="col-lg-7 reveal">
+        <div class="about-card">
+          <div class="info-grid">
+            <div class="info-item">
+              <span class="info-key"><i class="fa fa-user" style="margin-right:6px"></i>Name</span>
+              <span class="info-val">Muthu Sivakami S</span>
+            </div>
+            <div class="info-item">
+              <span class="info-key"><i class="fa fa-map-marker-alt" style="margin-right:6px"></i>Location</span>
+              <span class="info-val">Nagercoil, Tamil Nadu, India</span>
+            </div>
+            <div class="info-item">
+              <span class="info-key"><i class="fa fa-envelope" style="margin-right:6px"></i>Email</span>
+              <span class="info-val"><a href="mailto:muthusivakami2001@gmail.com">muthusivakami2001@gmail.com</a></span>
+            </div>
+            <div class="info-item">
+              <span class="info-key"><i class="fab fa-whatsapp" style="margin-right:6px"></i>WhatsApp</span>
+              <span class="info-val"><a href="https://wa.me/919715939917">+91 97159 39917</a></span>
+            </div>
+            <div class="info-item">
+              <span class="info-key"><i class="fab fa-github" style="margin-right:6px"></i>GitHub</span>
+              <span class="info-val"><a href="https://github.com/MuthuSivakami" target="_blank">github.com/MuthuSivakami</a></span>
+            </div>
+            <div class="info-item">
+              <span class="info-key"><i class="fa fa-graduation-cap" style="margin-right:6px"></i>Education</span>
+              <span class="info-val">BCA – 96% | MSU 2022</span>
+            </div>
+            <div class="info-item">
+              <span class="info-key"><i class="fa fa-phone" style="margin-right:6px"></i>Phone</span>
+              <span class="info-val"><a href="tel:+918122857028">+91 81228 57028</a></span>
+            </div>
+            <div class="info-item">
+              <span class="info-key"><i class="fa fa-briefcase" style="margin-right:6px"></i>Status</span>
+              <span class="info-val" style="color:#4ade80;">Open to Opportunities</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── SKILLS ── -->
+<section id="skills">
+  <div class="container">
+    <div class="section-label reveal">02. Technical Skills</div>
+    <h2 class="section-title reveal">My <span style="color:var(--accent)">Stack</span></h2>
+    <p class="reveal" style="color:var(--muted); margin-bottom:48px; max-width:520px;">Technologies and tools I use to build fast, secure, and scalable web applications.</p>
+    <div class="skills-grid">
+
+      <div class="skill-card reveal">
+        <span class="skill-icon">🐘</span>
+        <div class="skill-name">PHP Backend</div>
+        <div style="color:var(--muted); font-size:0.85rem;">Core PHP, PHP 7+, OOP principles, design patterns, exception handling</div>
+        <div class="skill-tags">
+          <span class="stag">Core PHP</span><span class="stag">PHP 7+</span><span class="stag">OOP</span><span class="stag">MVC</span>
+        </div>
+      </div>
+
+      <div class="skill-card reveal">
+        <span class="skill-icon">🔴</span>
+        <div class="skill-name">Laravel</div>
+        <div style="color:var(--muted); font-size:0.85rem;">Eloquent ORM, Artisan CLI, routing, middleware, authentication systems</div>
+        <div class="skill-tags">
+          <span class="stag">Laravel</span><span class="stag">Eloquent</span><span class="stag">Auth</span><span class="stag">CRUD</span>
+        </div>
+      </div>
+
+      <div class="skill-card reveal">
+        <span class="skill-icon">🟣</span>
+        <div class="skill-name">Yii Framework</div>
+        <div style="color:var(--muted); font-size:0.85rem;">Yii2 MVC, ActiveRecord, GridView, widgets, role-based access control</div>
+        <div class="skill-tags">
+          <span class="stag">Yii2</span><span class="stag">ActiveRecord</span><span class="stag">RBAC</span><span class="stag">Widgets</span>
+        </div>
+      </div>
+
+      <div class="skill-card reveal">
+        <span class="skill-icon">🗄️</span>
+        <div class="skill-name">Database</div>
+        <div style="color:var(--muted); font-size:0.85rem;">MySQL design, query optimization, indexing, normalization, PDO/MySQLi</div>
+        <div class="skill-tags">
+          <span class="stag">MySQL</span><span class="stag">PDO</span><span class="stag">Joins</span><span class="stag">Indexing</span>
+        </div>
+      </div>
+
+      <div class="skill-card reveal">
+        <span class="skill-icon">⚡</span>
+        <div class="skill-name">Frontend</div>
+        <div style="color:var(--muted); font-size:0.85rem;">HTML5, CSS3, Bootstrap, jQuery, AJAX/JSON for responsive dynamic UIs</div>
+        <div class="skill-tags">
+          <span class="stag">Bootstrap</span><span class="stag">jQuery</span><span class="stag">AJAX</span><span class="stag">JSON</span>
+        </div>
+      </div>
+
+      <div class="skill-card reveal">
+        <span class="skill-icon">🔐</span>
+        <div class="skill-name">Security & Auth</div>
+        <div style="color:var(--muted); font-size:0.85rem;">Session & cookie management, form validation, authentication, authorization</div>
+        <div class="skill-tags">
+          <span class="stag">Auth</span><span class="stag">Sessions</span><span class="stag">Validation</span><span class="stag">Security</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── EXPERIENCE ── -->
+<section id="experience">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-4 reveal">
+        <div class="section-label">03. Experience</div>
+        <h2 class="section-title">Work<br><span style="color:var(--accent)">History</span></h2>
+      </div>
+      <div class="col-lg-8 reveal">
+        <div class="timeline">
+          <div class="tl-item">
+            <div class="tl-dot"></div>
+            <div class="tl-period">Mar 2023 – Present</div>
+            <div class="tl-company">Rathna Softnet Technology</div>
+            <div class="tl-role">PHP Developer / Backend Developer</div>
+            <ul class="tl-desc">
+              <li>Developing and maintaining PHP-based web applications using Core PHP and frameworks</li>
+              <li>Implementing MVC architecture and building reusable backend components</li>
+              <li>Writing optimized MySQL queries using PDO and MySQLi for secure database operations</li>
+              <li>Handling user authentication, authorization, and input validation workflows</li>
+              <li>Delivering ERP modules for inventory, billing, accounting, and reporting systems</li>
+            </ul>
+          </div>
+          <div class="tl-item">
+            <div class="tl-dot" style="border-color: var(--accent2); box-shadow: 0 0 12px var(--accent2);"></div>
+            <div class="tl-period" style="color:var(--accent3);">Mar 2022 – Jan 2023</div>
+            <div class="tl-company">GET INNOVATIVE, Thuckalay</div>
+            <div class="tl-role">PHP / Laravel Intern</div>
+            <ul class="tl-desc">
+              <li>Developed CRUD applications using the Laravel framework with Eloquent ORM</li>
+              <li>Implemented user authentication and role-based access control systems</li>
+              <li>Worked on MySQL database design and management in production environments</li>
+              <li>Gained hands-on experience delivering real-world client projects</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── PROJECTS ── -->
+<section id="projects">
+  <div class="container">
+    <div class="section-label reveal">04. Projects</div>
+    <h2 class="section-title reveal">What I've <span style="color:var(--accent)">Built</span></h2>
+    <p class="reveal" style="color:var(--muted); margin-bottom:48px; max-width:520px;">A showcase of real-world systems built for clients across industries.</p>
+
+    <div class="projects-grid">
+
+      <div class="project-card reveal">
+        <div class="project-num">PROJECT — 01</div>
+        <div class="project-title">Sindoori Management Solution</div>
+        <div class="project-desc">Full backend system with authentication, data processing, and dynamic reporting. Session-based user management with optimized database queries and responsive UI integration.</div>
+        <div class="project-tech">
+          <span class="tech-badge tech-php">Core PHP</span>
+          <span class="tech-badge tech-mysql">MySQL</span>
+          <span class="tech-badge tech-js">Bootstrap</span>
+          <span class="tech-badge tech-js">AJAX</span>
+        </div>
+      </div>
+
+      <div class="project-card reveal">
+        <div class="project-num">PROJECT — 02</div>
+        <div class="project-title">Dakshin Sahodaya Sports Management</div>
+        <div class="project-desc">Comprehensive sports event management system with scheduling, participant tracking, and automated result generation. Real-time updates via AJAX and JSON.</div>
+        <div class="project-tech">
+          <span class="tech-badge tech-php">PHP</span>
+          <span class="tech-badge tech-mysql">MySQL</span>
+          <span class="tech-badge tech-js">AJAX</span>
+          <span class="tech-badge tech-js">JSON</span>
+        </div>
+      </div>
+
+      <div class="project-card reveal">
+        <div class="project-num">PROJECT — 03</div>
+        <div class="project-title">Zion Safety College – Billing Software</div>
+        <div class="project-desc">Student management and automated fee billing system. Handles payment workflows, receipt generation, fee tracking, and financial reporting using Yii2 MVC.</div>
+        <div class="project-tech">
+          <span class="tech-badge tech-yii">Yii Framework</span>
+          <span class="tech-badge tech-mysql">MySQL</span>
+          <span class="tech-badge tech-other">MVC</span>
+        </div>
+      </div>
+
+      <div class="project-card reveal">
+        <div class="project-num">PROJECT — 04 · ONGOING</div>
+        <div class="project-title">RS Windtesh – Windmill Tools ERP</div>
+        <div class="project-desc">Full ERP system for windmill tools management: inventory, purchase orders, invoice generation, stock tracking, supplier management, financial accounting, and analytics dashboard.</div>
+        <div class="project-tech">
+          <span class="tech-badge tech-yii">Yii Framework</span>
+          <span class="tech-badge tech-mysql">MySQL</span>
+          <span class="tech-badge tech-php">ERP</span>
+          <span class="tech-badge tech-js">Charts</span>
+        </div>
+      </div>
+
+      <div class="project-card reveal">
+        <div class="project-num">PROJECT — 05</div>
+        <div class="project-title">SMR Food Mills – Business Management</div>
+        <div class="project-desc">ERP with vendor management, order processing, stock control, GST billing compliance, and comprehensive reports including profit/loss and inventory valuation.</div>
+        <div class="project-tech">
+          <span class="tech-badge tech-yii">Yii Framework</span>
+          <span class="tech-badge tech-mysql">MySQL</span>
+          <span class="tech-badge tech-other">GST</span>
+          <span class="tech-badge tech-other">Ledger</span>
+        </div>
+      </div>
+
+      <div class="project-card reveal">
+        <div class="project-num">PROJECT — 06</div>
+        <div class="project-title">Christ Harvest Mission – Donation Software</div>
+        <div class="project-desc">Donation management with receipt generation, donor tracking, ledger management, journal entries, tax receipts, and automated email acknowledgment system.</div>
+        <div class="project-tech">
+          <span class="tech-badge tech-yii">Yii Framework</span>
+          <span class="tech-badge tech-mysql">MySQL</span>
+          <span class="tech-badge tech-other">Accounting</span>
+        </div>
+      </div>
+
+      <div class="project-card reveal">
+        <div class="project-num">PROJECT — 07</div>
+        <div class="project-title">Alphonsa School – Store Billing POS</div>
+        <div class="project-desc">Point-of-sale system for books, notes, and uniform inventory. Features invoice generation, stock alerts, automated tracking, sales reports, and profit analysis with export functionality.</div>
+        <div class="project-tech">
+          <span class="tech-badge tech-yii">Yii Framework</span>
+          <span class="tech-badge tech-mysql">MySQL</span>
+          <span class="tech-badge tech-other">POS</span>
+        </div>
+      </div>
+
+      <div class="project-card reveal">
+        <div class="project-num">PROJECT — 08</div>
+        <div class="project-title">CSI College – Student Management System</div>
+        <div class="project-desc">Complete student information system with enrollment, course management, fee collection, payment tracking, and a responsive admin dashboard built with Bootstrap and jQuery.</div>
+        <div class="project-tech">
+          <span class="tech-badge tech-yii">Yii Framework</span>
+          <span class="tech-badge tech-mysql">MySQL</span>
+          <span class="tech-badge tech-js">jQuery</span>
+          <span class="tech-badge tech-js">Bootstrap</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── CONTACT ── -->
+<section id="contact">
+  <div class="container">
+    <div class="section-label reveal">05. Contact</div>
+    <div class="contact-card reveal">
+      <h2 class="contact-big">Let's <span style="color:var(--accent)">Build</span> Together</h2>
+      <p class="contact-sub">I'm actively looking for backend developer roles. Whether it's a startup, agency, or enterprise — let's talk.</p>
+      <a href="mailto:muthusivakami2001@gmail.com" class="btn-primary-custom" style="font-size:0.85rem; padding:16px 40px;">
+        muthusivakami2001@gmail.com
+      </a>
+      <div class="contact-links">
+        <a href="tel:+918122857028" class="contact-link">
+          <i class="fa fa-phone"></i> +91 81228 57028
+        </a>
+        <a href="https://wa.me/919715939917" class="contact-link" target="_blank">
+          <i class="fab fa-whatsapp"></i> WhatsApp
+        </a>
+        <a href="https://github.com/MuthuSivakami" class="contact-link" target="_blank">
+          <i class="fab fa-github"></i> GitHub
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="container">
+    <div class="footer-text">
+      Designed &amp; Built by <span>Muthu Sivakami S</span> · PHP Backend Developer · Nagercoil, India
+    </div>
+  </div>
+</footer>
+
+<!-- Bootstrap JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+<!-- jQuery -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+
+<script>
+$(document).ready(function(){
+
+  // ── Custom Cursor ──
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  let mx=0,my=0,rx=0,ry=0;
+  document.addEventListener('mousemove', e => { mx=e.clientX; my=e.clientY; });
+  function animCursor(){
+    cursor.style.left = (mx-6)+'px';
+    cursor.style.top = (my-6)+'px';
+    rx += (mx - rx) * 0.12;
+    ry += (my - ry) * 0.12;
+    ring.style.left = (rx-18)+'px';
+    ring.style.top = (ry-18)+'px';
+    requestAnimationFrame(animCursor);
+  }
+  animCursor();
+  $('a,button').on('mouseenter', function(){ $(cursor).css('transform','scale(2.5)'); $(ring).css({'width':'50px','height':'50px','opacity':'0.8'}); });
+  $('a,button').on('mouseleave', function(){ $(cursor).css('transform','scale(1)'); $(ring).css({'width':'36px','height':'36px','opacity':'0.5'}); });
+
+  // ── Navbar scroll ──
+  $(window).scroll(function(){
+    if($(this).scrollTop() > 60) $('#navbar').addClass('scrolled');
+    else $('#navbar').removeClass('scrolled');
+  });
+
+  // ── Reveal on scroll ──
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if(entry.isIntersecting){
+        setTimeout(()=>{ entry.target.classList.add('visible'); }, i*80);
+        revealObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+  // ── Counter animation ──
+  function animateCounter(el){
+    const target = parseInt(el.getAttribute('data-count'));
+    const suffix = el.getAttribute('data-suffix') || '';
+    let current = 0;
+    const step = target / 60;
+    const timer = setInterval(()=>{
+      current += step;
+      if(current >= target){ current = target; clearInterval(timer); }
+      el.textContent = Math.floor(current) + suffix;
+    }, 20);
+  }
+  const counterObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting){
+        entry.target.querySelectorAll('[data-count]').forEach(animateCounter);
+        counterObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold:0.5 });
+  document.querySelectorAll('.hero-stats').forEach(el => counterObserver.observe(el));
+
+  // ── Active nav on scroll ──
+  const sections = document.querySelectorAll('section[id]');
+  $(window).scroll(function(){
+    let scrollY = $(this).scrollTop();
+    sections.forEach(sec => {
+      if(scrollY >= sec.offsetTop - 100){
+        $('.nav-link-custom').removeClass('active');
+        $(`.nav-link-custom[href="#${sec.id}"]`).addClass('active');
+      }
+    });
+  });
+
+  // ── Smooth scroll ──
+  $('a[href^="#"]').on('click', function(e){
+    e.preventDefault();
+    const target = $(this.getAttribute('href'));
+    if(target.length){
+      $('html,body').animate({ scrollTop: target.offset().top - 70 }, 700, 'swing');
+    }
+  });
+
+  // ── Project card tilt ──
+  $('.project-card').on('mousemove', function(e){
+    const rect = this.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const cx = rect.width/2, cy = rect.height/2;
+    const rx2 = (y-cy)/cy*6;
+    const ry2 = (cx-x)/cx*6;
+    $(this).css('transform', `perspective(800px) rotateX(${rx2}deg) rotateY(${ry2}deg) translateY(-6px)`);
+  }).on('mouseleave', function(){
+    $(this).css('transform', '');
+  });
+
+});
+</script>
+</body>
+</html>
