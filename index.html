@@ -610,6 +610,70 @@
     0%,100% { box-shadow: 0 0 0 0 rgba(74,222,128,0.5); }
     50% { box-shadow: 0 0 0 6px rgba(74,222,128,0); }
   }
+
+  /* Disable custom cursor on touch devices */
+@media (hover: none) and (pointer: coarse) {
+  body {
+    cursor: auto;
+  }
+  .cursor,
+  .cursor-ring {
+    display: none !important;
+  }
+}
+
+@media (max-width: 576px) {
+  .hero-name {
+    line-h
+    eight: 1.05;
+
+  }
+
+  .hero-desc {
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .navbar-custom .container {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .nav-link-custom {
+    padding: 6px 10px !important;
+    font-size: 0.7rem;
+  }
+}
+/* Stats responsive fix */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+@media (max-width: 576px) {
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    margin-top: 30px;
+  }
+
+  .stat-card {
+    padding: 14px 10px;
+    text-align: center;
+  }
+
+  .stat-number {
+    font-size: 1.6rem;
+  }
+
+  .stat-label {
+    font-size: 0.6rem;
+    letter-spacing: 0.8px;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -1135,7 +1199,27 @@ $(document).ready(function(){
   });
 
 });
+
+
+const isTouchDevice = window.matchMedia("(hover: none)").matches;
+
+if (!isTouchDevice) {
+  $('.project-card').on('mousemove', function(e){
+    const rect = this.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const cx = rect.width/2, cy = rect.height/2;
+    const rx2 = (y-cy)/cy*6;
+    const ry2 = (cx-x)/cx*6;
+    $(this).css(
+      'transform',
+      `perspective(800px) rotateX(${rx2}deg) rotateY(${ry2}deg) translateY(-6px)`
+    );
+  }).on('mouseleave', function(){
+    $(this).css('transform', '');
+  });
+}
+
 </script>
 </body>
-
 </html>
