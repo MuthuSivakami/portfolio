@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Muthu Sivakami S — PHP Backend Developer</title>
+<meta name="description" content="Muthu Sivakami S — PHP Backend Developer specializing in Laravel, Yii and MySQL-driven ERP systems.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+  :root{
+    --paper:#EFEDE6;
+    --paper-2:#E6E2D6;
+    --paper-3:#F7F5EF;
+    --ink:#1D2333;
+    --ink-soft:#585F76;
+    --ink-faint:#8B8F9E;
+    --red:#A3342C;
+    --green:#2F6B4F;
+    --line:#C9C2AE;
+    --line-soft:#DAD5C6;
+    --shadow: 0 18px 40px rgba(29,35,51,0.08);
+    --radius: 3px;
+  }
+
+  *{ margin:0; padding:0; box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+
+  @media (prefers-reduced-motion: reduce){
+    html{ scroll-behavior:auto; }
+    *{ animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important; }
+  }
+
+  body{
+    background: var(--paper);
+    color: var(--ink);
+    font-family:'Inter', system-ui, sans-serif;
+    line-height:1.5;
+    background-image:
+      linear-gradient(var(--line-soft) 1px, transparent 1px);
+    background-size: 100% 42px;
+    background-attachment: local;
+  }
+
+  a{ color:inherit; }
+  ul{ list-style:none; }
+  img{ max-width:100%; display:block; }
+
+  .wrap{ max-width:1120px; margin:0 auto; padding:0 28px; }
+
+  /* ============ FOLIO TABS (nav) ============ */
+  .folio-nav{
+    position:fixed; top:0; left:0; right:0; z-index:500;
+    background: rgba(239,237,230,0.94);
+    backdrop-filter: blur(6px);
+    border-bottom:1px solid var(--line);
+  }
+  .folio-nav-inner{
+    max-width:1120px; margin:0 auto; padding:0 28px;
+    display:flex; align-items:center; justify-content:space-between;
+    height:64px;
+  }
+  .brand{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size:1.15rem;
+    letter-spacing:-0.3px;
+    text-decoration:none;
+    display:flex; align-items:center; gap:8px;
+  }
+  .brand .mark{
+    width:22px; height:22px;
+    border:1.5px solid var(--ink);
+    border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.6rem;
+    color:var(--red);
+  }
+  .tabs{
+    display:flex; gap:2px;
+    overflow-x:auto;
+    scrollbar-width:none;
+  }
+  .tabs::-webkit-scrollbar{ display:none; }
+  .tab{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.68rem;
+    letter-spacing:0.6px;
+    text-transform:uppercase;
+    color: var(--ink-soft);
+    text-decoration:none;
+    padding:8px 14px;
+    white-space:nowrap;
+    border-bottom:2px solid transparent;
+    transition: color .25s, border-color .25s;
+  }
+  .tab:hover, .tab.active{ color:var(--red); border-color:var(--red); }
+
+  /* ============ HERO — LEDGER COVER ============ */
+  #hero{ padding:130px 0 60px; position:relative; }
+  .cover{
+    background: var(--paper-3);
+    border:1px solid var(--line);
+    box-shadow: var(--shadow);
+    position:relative;
+    padding:0;
+    overflow:hidden;
+  }
+  .cover-top{
+    display:flex; justify-content:space-between; align-items:flex-start;
+    padding:26px 34px 0;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.68rem;
+    color: var(--ink-faint);
+    letter-spacing:1px;
+    text-transform:uppercase;
+  }
+  .cover-body{
+    padding:14px 34px 40px;
+    display:grid;
+    grid-template-columns: 1.3fr 1fr;
+    gap: 40px;
+    align-items:end;
+  }
+  .eyebrow{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.72rem;
+    letter-spacing:2px;
+    text-transform:uppercase;
+    color: var(--red);
+    margin-bottom:18px;
+    display:flex; align-items:center; gap:10px;
+  }
+  .eyebrow::before{ content:''; width:26px; height:1px; background:var(--red); }
+
+  .cover h1{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size: clamp(2.4rem, 6vw, 4.6rem);
+    line-height:0.98;
+    letter-spacing:-1.5px;
+  }
+  .cover h1 em{
+    font-style:italic;
+    font-weight:400;
+    color:var(--red);
+  }
+  .cover-role{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.92rem;
+    color: var(--ink-soft);
+    margin-top:20px;
+    max-width:520px;
+    line-height:1.75;
+  }
+  .cover-ctas{ display:flex; gap:14px; margin-top:30px; flex-wrap:wrap; }
+  .btn{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.72rem;
+    letter-spacing:1px;
+    text-transform:uppercase;
+    text-decoration:none;
+    padding:13px 26px;
+    border-radius: var(--radius);
+    transition: all .25s;
+    display:inline-block;
+  }
+  .btn-solid{ background:var(--ink); color:var(--paper-3); border:1px solid var(--ink); }
+  .btn-solid:hover{ background:var(--red); border-color:var(--red); }
+  .btn-line{ border:1px solid var(--ink); color:var(--ink); }
+  .btn-line:hover{ border-color:var(--red); color:var(--red); }
+
+  /* stamp */
+  .stamp{
+    position:absolute;
+    top:34px; right:36px;
+    border:2px solid var(--green);
+    color:var(--green);
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.66rem;
+    letter-spacing:1.5px;
+    text-transform:uppercase;
+    padding:8px 14px;
+    border-radius:50%/50%;
+    transform: rotate(9deg);
+    opacity:0.9;
+  }
+  .stamp span{ display:block; text-align:center; }
+  .stamp .dot{ width:5px;height:5px;border-radius:50%;background:var(--green); margin:3px auto 0; }
+
+  /* passbook right column: quick facts ledger */
+  .facts{
+    border-top:1px dashed var(--line);
+    padding-top:16px;
+  }
+  .fact-row{
+    display:flex; justify-content:space-between; gap:12px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.78rem;
+    padding:9px 0;
+    border-bottom:1px dotted var(--line);
+    color:var(--ink-soft);
+  }
+  .fact-row b{ color:var(--ink); font-weight:600; }
+
+  /* summary strip like statement totals */
+  .ledger-strip{
+    display:grid; grid-template-columns:repeat(4,1fr);
+    border-top:1px solid var(--line);
+  }
+  .ledger-strip div{
+    padding:22px 20px;
+    text-align:center;
+    border-right:1px solid var(--line);
+  }
+  .ledger-strip div:last-child{ border-right:none; }
+  .ls-num{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size:2.1rem;
+    color:var(--ink);
+    display:block;
+  }
+  .ls-label{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.62rem;
+    letter-spacing:1px;
+    text-transform:uppercase;
+    color:var(--ink-faint);
+    margin-top:4px;
+  }
+
+  /* ============ SECTION SCAFFOLDING ============ */
+  section.folio{ padding:90px 0; }
+  .folio-head{
+    display:flex; align-items:baseline; gap:16px;
+    margin-bottom:46px;
+    border-bottom:1px solid var(--line);
+    padding-bottom:20px;
+  }
+  .folio-no{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.75rem;
+    color:var(--red);
+    letter-spacing:1px;
+  }
+  .folio-title{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size: clamp(1.7rem, 3.4vw, 2.6rem);
+    letter-spacing:-1px;
+  }
+  .folio-title em{ font-style:italic; font-weight:400; color:var(--red); }
+
+  .reveal{ opacity:0; transform:translateY(24px); transition:opacity .7s ease, transform .7s ease; }
+  .reveal.visible{ opacity:1; transform:translateY(0); }
+
+  /* ============ ABOUT ============ */
+  #about-grid{ display:grid; grid-template-columns:1.1fr 1fr; gap:60px; }
+  .about-copy p{ color:var(--ink-soft); font-size:1.02rem; line-height:1.85; margin-bottom:16px; }
+  .about-copy p:first-child::first-letter{
+    font-family:'Fraunces', serif;
+    font-size:3.2rem;
+    float:left;
+    line-height:0.8;
+    margin:6px 8px 0 0;
+    color:var(--red);
+    font-weight:600;
+  }
+  .particulars{ border:1px solid var(--line); background:var(--paper-3); }
+  .particulars-head{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.65rem; letter-spacing:1.5px; text-transform:uppercase;
+    color:var(--ink-faint);
+    padding:14px 22px; border-bottom:1px solid var(--line);
+  }
+  .p-row{
+    display:flex; justify-content:space-between; align-items:baseline; gap:10px;
+    padding:15px 22px;
+    border-bottom:1px dotted var(--line);
+  }
+  .p-row:last-child{ border-bottom:none; }
+  .p-key{ font-family:'IBM Plex Mono', monospace; font-size:0.72rem; color:var(--ink-faint); letter-spacing:0.5px; white-space:nowrap; }
+  .p-val{ text-align:right; font-size:0.92rem; font-weight:500; }
+  .p-val a{ text-decoration:none; }
+  .p-val a:hover{ color:var(--red); }
+  .p-val.status{ color:var(--green); font-weight:600; }
+
+  /* ============ SKILLS — STOCK REGISTER ============ */
+  .register{ border:1px solid var(--line); background:var(--paper-3); }
+  .reg-row{
+    display:grid;
+    grid-template-columns: 46px 1.4fr 1.6fr 100px;
+    align-items:center;
+    border-bottom:1px solid var(--line);
+    padding:20px 22px;
+    gap:16px;
+  }
+  .reg-row:last-child{ border-bottom:none; }
+  .reg-row.reg-head{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.62rem; letter-spacing:1.5px; text-transform:uppercase;
+    color:var(--ink-faint);
+    padding:12px 22px;
+    background:var(--paper-2);
+  }
+  .reg-idx{ font-family:'IBM Plex Mono', monospace; color:var(--ink-faint); font-size:0.8rem; }
+  .reg-name{ font-family:'Fraunces', serif; font-weight:600; font-size:1.05rem; }
+  .reg-tags{ display:flex; flex-wrap:wrap; gap:6px; }
+  .reg-tag{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.62rem;
+    padding:3px 9px;
+    border:1px solid var(--line);
+    border-radius:20px;
+    color:var(--ink-soft);
+  }
+  .reg-level{ display:flex; gap:4px; justify-content:flex-end; }
+  .reg-dot{ width:8px; height:8px; border-radius:50%; background:var(--line); }
+  .reg-dot.on{ background:var(--red); }
+
+  /* ============ EXPERIENCE — TRANSACTION HISTORY ============ */
+  .txn{ border-left:1px solid var(--line); padding-left:0; }
+  .txn-item{
+    display:grid;
+    grid-template-columns: 190px 1px 1fr;
+    gap:0 30px;
+    padding-bottom:56px;
+    position:relative;
+  }
+  .txn-item:last-child{ padding-bottom:0; }
+  .txn-date{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.78rem;
+    color:var(--red);
+    padding-top:4px;
+  }
+  .txn-rule{ background:var(--line); position:relative; }
+  .txn-rule::before{
+    content:''; position:absolute; top:4px; left:50%; transform:translateX(-50%);
+    width:9px; height:9px; border-radius:50%;
+    background:var(--paper-3); border:2px solid var(--red);
+  }
+  .txn-company{ font-family:'Fraunces', serif; font-weight:600; font-size:1.4rem; margin-bottom:2px; }
+  .txn-role{ font-family:'IBM Plex Mono', monospace; font-size:0.76rem; color:var(--ink-faint); margin-bottom:16px; }
+  .txn-list li{ color:var(--ink-soft); padding-left:20px; position:relative; margin-bottom:9px; line-height:1.6; }
+  .txn-list li::before{ content:'—'; position:absolute; left:0; color:var(--red); }
+
+  /* ============ PROJECTS — INVOICES ISSUED ============ */
+  .invoices{ display:grid; grid-template-columns:repeat(auto-fit, minmax(320px,1fr)); gap:26px; }
+  .invoice{
+    background:var(--paper-3);
+    border:1px solid var(--line);
+    position:relative;
+    transition: transform .25s, box-shadow .25s;
+  }
+  .invoice:hover{ transform:translateY(-4px); box-shadow:var(--shadow); border-color:var(--ink-faint); }
+  .invoice-head{
+    display:flex; justify-content:space-between; align-items:center;
+    padding:16px 22px;
+    border-bottom:1px dashed var(--line);
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.66rem; letter-spacing:1px; text-transform:uppercase;
+    color:var(--ink-faint);
+  }
+  .invoice-head .tag-ongoing{ color:var(--green); }
+  .invoice-body{ padding:22px; }
+  .invoice-title{
+    font-family:'Fraunces', serif; font-weight:600; font-size:1.2rem;
+    margin-bottom:12px; line-height:1.3;
+  }
+  .invoice-desc{ color:var(--ink-soft); font-size:0.9rem; line-height:1.7; margin-bottom:18px; }
+  .invoice-items{ border-top:1px solid var(--line); padding-top:14px; display:flex; flex-wrap:wrap; gap:6px; }
+  .item{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.63rem;
+    padding:4px 9px;
+    background: var(--paper-2);
+    border-radius:2px;
+    color:var(--ink-soft);
+  }
+
+  /* perforation */
+  .invoice::after{
+    content:'';
+    position:absolute; left:0; right:0; bottom:0;
+    height:1px;
+    background-image: radial-gradient(circle, var(--paper) 2px, transparent 2.2px);
+    background-size: 12px 1px;
+    background-position: 0 0;
+  }
+
+  /* ============ CONTACT — DEPOSIT SLIP ============ */
+  .slip{
+    border:1px solid var(--line);
+    background:var(--paper-3);
+    box-shadow:var(--shadow);
+    padding:56px 44px;
+    text-align:center;
+    position:relative;
+  }
+  .slip .eyebrow{ justify-content:center; }
+  .slip .eyebrow::before{ display:none; }
+  .slip h2{
+    font-family:'Fraunces', serif; font-weight:600;
+    font-size:clamp(1.9rem, 4.6vw, 3.1rem);
+    letter-spacing:-1px; margin-bottom:14px;
+  }
+  .slip h2 em{ font-style:italic; font-weight:400; color:var(--red); }
+  .slip p{ color:var(--ink-soft); max-width:480px; margin:0 auto 32px; }
+  .slip-links{ display:flex; justify-content:center; gap:14px; flex-wrap:wrap; }
+  .slip-link{
+    display:flex; align-items:center; gap:9px;
+    font-family:'IBM Plex Mono', monospace; font-size:0.76rem;
+    text-decoration:none;
+    border:1px solid var(--line);
+    padding:13px 22px; border-radius:var(--radius);
+    color:var(--ink-soft);
+    transition:all .25s;
+  }
+  .slip-link:hover{ border-color:var(--red); color:var(--red); }
+
+  footer{ padding:34px 0; border-top:1px solid var(--line); text-align:center; }
+  .foot-text{ font-family:'IBM Plex Mono', monospace; font-size:0.68rem; color:var(--ink-faint); letter-spacing:0.5px; }
+  .foot-text b{ color:var(--red); }
+
+  /* ============ RESPONSIVE ============ */
+  @media (max-width: 860px){
+    .cover-body{ grid-template-columns:1fr; gap:26px; }
+    .stamp{ position:static; transform:none; display:inline-flex; flex-direction:column; align-items:center; margin-top:18px; }
+    .ledger-strip{ grid-template-columns:repeat(2,1fr); }
+    .ledger-strip div:nth-child(2){ border-right:none; }
+    .ledger-strip div{ border-bottom:1px solid var(--line); }
+    #about-grid{ grid-template-columns:1fr; gap:34px; }
+    .reg-row{ grid-template-columns:32px 1fr; row-gap:10px; }
+    .reg-row .reg-tags{ grid-column:1/-1; }
+    .reg-row .reg-level{ grid-column:1/-1; justify-content:flex-start; }
+    .reg-row.reg-head{ display:none; }
+    .txn-item{ grid-template-columns:14px 1fr; }
+    .txn-date{ grid-column:1/-1; padding-top:0; margin-bottom:8px; }
+    .txn-rule{ display:none; }
+  }
+
+  @media (max-width: 560px){
+    .wrap{ padding:0 18px; }
+    #hero{ padding:110px 0 40px; }
+    .cover-top{ padding:20px 20px 0; flex-direction:column; gap:6px; }
+    .cover-body{ padding:14px 20px 30px; }
+    .folio-head{ flex-direction:column; align-items:flex-start; gap:6px; }
+    section.folio{ padding:64px 0; }
+    .particulars-head, .p-row{ padding:14px 18px; }
+    .slip{ padding:40px 22px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== NAV ===== -->
+<nav class="folio-nav">
+  <div class="folio-nav-inner">
+    <a href="#hero" class="brand"><span class="mark">M</span>Muthu<span style="color:var(--red)">.</span></a>
+    <div class="tabs">
+      <a href="#about" class="tab">01 Profile</a>
+      <a href="#skills" class="tab">02 Register</a>
+      <a href="#experience" class="tab">03 History</a>
+      <a href="#projects" class="tab">04 Invoices</a>
+      <a href="#contact" class="tab">05 Deposit</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ===== HERO ===== -->
+<section id="hero">
+  <div class="wrap">
+    <div class="cover">
+      <div class="cover-top">
+        <span>Folio No. 001 · Est. 2023</span>
+        <span>Nagercoil, Tamil Nadu, India</span>
+      </div>
+      <div class="cover-body">
+        <div>
+          <div class="eyebrow">Account Holder</div>
+          <h1>Muthu Sivakami S<br><em>PHP Backend Developer</em></h1>
+          <p class="cover-role">Two years of ledger-tight backend work — turning invoices, inventories and fee registers into clean PHP, Laravel &amp; Yii systems that businesses actually run on.</p>
+          <div class="cover-ctas">
+            <a href="#projects" class="btn btn-solid">View Invoices</a>
+            <a href="mailto:muthusivakami2001@gmail.com" class="btn btn-line">Open an Account</a>
+          </div>
+        </div>
+        <div>
+          <div class="facts">
+            <div class="fact-row"><span>Role</span><b>Backend / PHP Developer</b></div>
+            <div class="fact-row"><span>Frameworks</span><b>Laravel, Yii</b></div>
+            <div class="fact-row"><span>Database</span><b>MySQL · PDO</b></div>
+            <div class="fact-row"><span>Status</span><b style="color:var(--green)">Open to opportunities</b></div>
+          </div>
+        </div>
+      </div>
+      <div class="stamp"><span>Available</span><span class="dot"></span></div>
+      <div class="ledger-strip">
+        <div><span class="ls-num">2+</span><span class="ls-label">Years Exp.</span></div>
+        <div><span class="ls-num">9</span><span class="ls-label">Systems Built</span></div>
+        <div><span class="ls-num">96%</span><span class="ls-label">BCA Score</span></div>
+        <div><span class="ls-num">2</span><span class="ls-label">Core Frameworks</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== ABOUT ===== -->
+<section id="about" class="folio">
+  <div class="wrap">
+    <div class="folio-head reveal">
+      <span class="folio-no">Folio 01</span>
+      <h2 class="folio-title">Account <em>Profile</em></h2>
+    </div>
+    <div id="about-grid">
+      <div class="about-copy reveal">
+        <p>I'm a backend developer from Nagercoil, Tamil Nadu, who thinks in tables, transactions and states — because that's what most of my work actually is. Fee registers, stock ledgers, GST invoices, donation logs: real systems where a wrong balance means someone's afternoon goes badly.</p>
+        <p>Over two years at Rathna Softnet Technology, I've shipped ERP, billing, inventory and student-management systems in Core PHP, Yii and Laravel, backed by MySQL that's been indexed and optimized rather than just left to work. I care about the boring parts — validation, session handling, correct arithmetic — because that's where trust in a system is actually built.</p>
+      </div>
+      <div class="particulars reveal">
+        <div class="particulars-head">Particulars</div>
+        <div class="p-row"><span class="p-key">NAME</span><span class="p-val">Muthu Sivakami S</span></div>
+        <div class="p-row"><span class="p-key">LOCATION</span><span class="p-val">Nagercoil, Tamil Nadu</span></div>
+        <div class="p-row"><span class="p-key">EMAIL</span><span class="p-val"><a href="mailto:muthusivakami2001@gmail.com">muthusivakami2001@gmail.com</a></span></div>
+        <div class="p-row"><span class="p-key">PHONE</span><span class="p-val"><a href="tel:+918122857028">+91 81228 57028</a></span></div>
+        <div class="p-row"><span class="p-key">WHATSAPP</span><span class="p-val"><a href="https://wa.me/919715939917">+91 97159 39917</a></span></div>
+        <div class="p-row"><span class="p-key">GITHUB</span><span class="p-val"><a href="https://github.com/MuthuSivakami" target="_blank" rel="noopener">github.com/MuthuSivakami</a></span></div>
+        <div class="p-row"><span class="p-key">EDUCATION</span><span class="p-val">BCA — 96% · MSU 2022</span></div>
+        <div class="p-row"><span class="p-key">STATUS</span><span class="p-val status">Open to Opportunities</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SKILLS ===== -->
+<section id="skills" class="folio" style="background:var(--paper-2)">
+  <div class="wrap">
+    <div class="folio-head reveal">
+      <span class="folio-no">Folio 02</span>
+      <h2 class="folio-title">Stock <em>Register</em></h2>
+    </div>
+    <div class="register reveal">
+      <div class="reg-row reg-head">
+        <span>No.</span><span>Item</span><span>Tools in Stock</span><span style="text-align:right">Proficiency</span>
+      </div>
+
+      <div class="reg-row">
+        <span class="reg-idx">01</span>
+        <div class="reg-name">PHP Backend</div>
+        <div class="reg-tags"><span class="reg-tag">Core PHP</span><span class="reg-tag">PHP 7+</span><span class="reg-tag">OOP</span><span class="reg-tag">MVC</span></div>
+        <div class="reg-level"><span class="reg-dot on"></span><span class="reg-dot on"></span><span class="reg-dot on"></span><span class="reg-dot on"></span><span class="reg-dot"></span></div>
+      </div>
+
+      <div class="reg-row">
+        <span class="reg-idx">02</span>
+        <div class="reg-name">Yii Framework</div>
+        <div class="reg-tags"><span class="reg-tag">Yii 1.x</span><span class="reg-tag">ActiveRecord</span><span class="reg-tag">Widgets</span><span class="reg-tag">RBAC</span></div>
+        <div class="reg-level"><span class="reg-dot on"></span><span class="reg-dot on"></span><span class="reg-dot on"></span><span class="reg-dot on"></span><span class="reg-dot"></span></div>
+      </div>
+
+      <div class="reg-row">
+        <span class="reg-idx">03</span>
+        <div class="reg-name">Laravel</div>
+        <div class="reg-tags"><span class="reg-tag">Eloquent</span><span class="reg-tag">Artisan</span><span class="reg-tag">Auth</span><span class="reg-tag">REST APIs</span></div>
+        <div class="reg-level"><span class="reg-dot on"></span><span class="reg-dot on"></span><span class="reg-dot on"></span><span class="reg-dot"></span><span class="reg-dot"></span></div>
+      </div>
+
+      <div class="reg-row">
+        <span class="reg-idx">04</span>
+        <div class="reg-name">Database</div>
+        <div class="reg-tags"><span class="reg-tag">MySQL</span><span class="reg-tag">PDO / MySQLi</span><span class="reg-tag">Indexing</span><span class="reg-tag">Query Tuning</span></div>
+        <div class="reg-level"><span class="reg-dot on"></span><span class="reg-dot on"></span><span class="reg-dot on"></span><span class="reg-dot on"></span><span class="reg-dot"></span></div>
+      </div>
+
+      <div class="reg-row">
+        <span class="reg-idx">05</span>
+        <div class="reg-name">Frontend Integration</div>
+        <div class="reg-tags"><span class="reg-tag">jQuery</span><span class="reg-tag">AJAX / JSON</span><span class="reg-tag">Bootstrap</span><span class="reg-tag">Select2</span></div>
+        <div class="reg-level"><span class="reg-dot on"></span><span class="reg-dot on"></span><span class="reg-dot on"></span><span class="reg-dot"></span><span class="reg-dot"></span></div>
+      </div>
+
+      <div class="reg-row">
+        <span class="reg-idx">06</span>
+        <div class="reg-name">Security &amp; Sessions</div>
+        <div class="reg-tags"><span class="reg-tag">Auth</span><span class="reg-tag">Validation</span><span class="reg-tag">Session Mgmt</span><span class="reg-tag">Git</span></div>
+        <div class="reg-level"><span class="reg-dot on"></span><span class="reg-dot on"></span><span class="reg-dot on"></span><span class="reg-dot"></span><span class="reg-dot"></span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== EXPERIENCE ===== -->
+<section id="experience" class="folio">
+  <div class="wrap">
+    <div class="folio-head reveal">
+      <span class="folio-no">Folio 03</span>
+      <h2 class="folio-title">Transaction <em>History</em></h2>
+    </div>
+    <div class="txn">
+      <div class="txn-item reveal">
+        <div class="txn-date">Mar 2023 — Present</div>
+        <div class="txn-rule"></div>
+        <div>
+          <div class="txn-company">Rathna Softnet Technology</div>
+          <div class="txn-role">PHP Developer / Backend Developer</div>
+          <ul class="txn-list">
+            <li>Building and maintaining PHP web applications in Core PHP, Yii 1.x and Laravel</li>
+            <li>Delivering ERP modules for fees, billing, inventory and stock across multiple client systems</li>
+            <li>Writing optimized MySQL queries with PDO/MySQLi, including cross-database lookups for academic-year data</li>
+            <li>Implementing authentication, authorization and input validation workflows</li>
+            <li>Improving report and query performance across production ERP and college-management systems</li>
+          </ul>
+        </div>
+      </div>
+      <div class="txn-item reveal">
+        <div class="txn-date">Mar 2022 — Jan 2023</div>
+        <div class="txn-rule"></div>
+        <div>
+          <div class="txn-company">GET Innovative, Thuckalay</div>
+          <div class="txn-role">PHP / Laravel Intern</div>
+          <ul class="txn-list">
+            <li>Built CRUD applications in Laravel using Eloquent ORM</li>
+            <li>Implemented authentication and role-based access control</li>
+            <li>Worked on MySQL schema design in production environments</li>
+            <li>Gained hands-on experience delivering real client projects end-to-end</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PROJECTS ===== -->
+<section id="projects" class="folio" style="background:var(--paper-2)">
+  <div class="wrap">
+    <div class="folio-head reveal">
+      <span class="folio-no">Folio 04</span>
+      <h2 class="folio-title">Invoices <em>Issued</em></h2>
+    </div>
+    <div class="invoices">
+
+      <div class="invoice reveal">
+        <div class="invoice-head"><span>INV — 001</span><span>Settled</span></div>
+        <div class="invoice-body">
+          <div class="invoice-title">CSI Institute of Technology — College Management</div>
+          <div class="invoice-desc">Passed-out student workflow, fee balance tracking across two databases, year-wise fee reports, hostel &amp; transport approval modules.</div>
+          <div class="invoice-items"><span class="item">Yii 1.x</span><span class="item">MySQL</span><span class="item">PDO</span><span class="item">Select2</span></div>
+        </div>
+      </div>
+
+      <div class="invoice reveal">
+        <div class="invoice-head"><span>INV — 002</span><span class="tag-ongoing">Ongoing</span></div>
+        <div class="invoice-body">
+          <div class="invoice-title">SMR Food Mills / Rathna Traders — ERP</div>
+          <div class="invoice-desc">Raw material stock management, lot tracking, branch transfers, purchase returns, e-Way Bill printing and financial reporting.</div>
+          <div class="invoice-items"><span class="item">Yii 1.x</span><span class="item">MySQL</span><span class="item">GST</span><span class="item">Reports</span></div>
+        </div>
+      </div>
+
+      <div class="invoice reveal">
+        <div class="invoice-head"><span>INV — 003</span><span>Settled</span></div>
+        <div class="invoice-body">
+          <div class="invoice-title">GAIN Membership System (worldgain.org)</div>
+          <div class="invoice-desc">Member registration and payment flow with Razorpay &amp; PayPal, renewal support, and an admin panel built with DataTables.</div>
+          <div class="invoice-items"><span class="item">PHP</span><span class="item">Razorpay</span><span class="item">PayPal</span><span class="item">DataTables</span></div>
+        </div>
+      </div>
+
+      <div class="invoice reveal">
+        <div class="invoice-head"><span>INV — 004</span><span>Settled</span></div>
+        <div class="invoice-body">
+          <div class="invoice-title">Zion Safety College — Billing Software</div>
+          <div class="invoice-desc">Student management with automated fee billing, receipt generation and financial reporting on Yii2 MVC.</div>
+          <div class="invoice-items"><span class="item">Yii Framework</span><span class="item">MySQL</span><span class="item">MVC</span></div>
+        </div>
+      </div>
+
+      <div class="invoice reveal">
+        <div class="invoice-head"><span>INV — 005</span><span>Settled</span></div>
+        <div class="invoice-body">
+          <div class="invoice-title">Christ Harvest Mission — Donation Software</div>
+          <div class="invoice-desc">Donation and donor tracking with ledger management, tax receipts and automated email acknowledgements.</div>
+          <div class="invoice-items"><span class="item">Yii Framework</span><span class="item">MySQL</span><span class="item">Accounting</span></div>
+        </div>
+      </div>
+
+      <div class="invoice reveal">
+        <div class="invoice-head"><span>INV — 006</span><span>Settled</span></div>
+        <div class="invoice-body">
+          <div class="invoice-title">Alphonsa School — Store Billing POS</div>
+          <div class="invoice-desc">Point-of-sale for books, notes and uniforms — invoicing, stock alerts, sales reports and profit analysis with export.</div>
+          <div class="invoice-items"><span class="item">Yii Framework</span><span class="item">MySQL</span><span class="item">POS</span></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===== CONTACT ===== -->
+<section id="contact" class="folio">
+  <div class="wrap">
+    <div class="slip reveal">
+      <div class="eyebrow">Folio 05 · Deposit Slip</div>
+      <h2>Let's <em>settle</em> the details.</h2>
+      <p>Actively looking for backend developer roles — startup, agency or enterprise. If there's a system that needs building or fixing, I'm ready to talk.</p>
+      <div class="slip-links">
+        <a href="mailto:muthusivakami2001@gmail.com" class="slip-link"><i class="fa fa-envelope"></i> muthusivakami2001@gmail.com</a>
+        <a href="tel:+918122857028" class="slip-link"><i class="fa fa-phone"></i> +91 81228 57028</a>
+        <a href="https://wa.me/919715939917" class="slip-link" target="_blank" rel="noopener"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+        <a href="https://github.com/MuthuSivakami" class="slip-link" target="_blank" rel="noopener"><i class="fab fa-github"></i> GitHub</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="foot-text">Balance carried forward by <b>Muthu Sivakami S</b> · PHP Backend Developer · Nagercoil, India</div>
+</footer>
+
+<script>
+  // active tab on scroll
+  const sections = document.querySelectorAll('section[id]');
+  const tabs = document.querySelectorAll('.tab');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(sec => {
+      if (window.scrollY >= sec.offsetTop - 140) current = sec.id;
+    });
+    tabs.forEach(t => t.classList.toggle('active', t.getAttribute('href') === '#' + current));
+  });
+
+  // smooth scroll with offset
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const target = document.querySelector(a.getAttribute('href'));
+      if (target) {
+        e.preventDefault();
+        window.scrollTo({ top: target.offsetTop - 64, behavior: 'smooth' });
+      }
+    });
+  });
+
+  // reveal on scroll
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 60);
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>
+</body>
+</html>
